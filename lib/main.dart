@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Анимации',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        scaffoldBackgroundColor: Colors.grey[900], // Темно-серый фон
       ),
       home: const AnimationDemo(),
     );
@@ -107,11 +108,20 @@ class _AnimationDemoState extends State<AnimationDemo>
     }
   }
 
+  // Виджет для треугольника
+  Widget _buildTriangle() {
+    return CustomPaint(
+      size: const Size(100, 100),
+      painter: TrianglePainter(color: _colorAnimation.value!),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Анимации'),
+        backgroundColor: Colors.grey[800],
       ),
       body: SingleChildScrollView(
         controller: _scrollController,
@@ -124,7 +134,10 @@ class _AnimationDemoState extends State<AnimationDemo>
                 children: [
                   const Text(
                     'Имплицитные анимации',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -132,11 +145,23 @@ class _AnimationDemoState extends State<AnimationDemo>
                     children: [
                       ElevatedButton(
                         onPressed: _toggleFirst,
-                        child: Text(_showFirst ? 'Скрыть' : 'Показать'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[700],
+                        ),
+                        child: Text(
+                          _showFirst ? 'Скрыть' : 'Показать',
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                       ElevatedButton(
                         onPressed: _toggleSecond,
-                        child: Text(_showSecond ? 'Скрыть' : 'Показать'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[700],
+                        ),
+                        child: Text(
+                          _showSecond ? 'Скрыть' : 'Показать',
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -148,7 +173,10 @@ class _AnimationDemoState extends State<AnimationDemo>
                       child: Container(
                         width: 100,
                         height: 100,
-                        color: Colors.deepPurple,
+                        decoration: BoxDecoration(
+                          color: Colors.deepPurple,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                         child: const Center(
                           child: Text(
                             'Это щас пропадет',
@@ -166,7 +194,10 @@ class _AnimationDemoState extends State<AnimationDemo>
                       width: _showSecond ? 200 : 100,
                       height: _showSecond ? 100 : 200,
                       padding: EdgeInsets.all(_paddingValue),
-                      color: _containerColor,
+                      decoration: BoxDecoration(
+                        color: _containerColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       curve: Curves.easeInOut,
                       child: const Center(
                         child: Text(
@@ -187,18 +218,25 @@ class _AnimationDemoState extends State<AnimationDemo>
                 children: [
                   const Text(
                     'Явные анимации',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   const SizedBox(height: 10),
                   Center(
                     child: ElevatedButton(
                       onPressed: _toggleExplicitAnimation,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[700],
+                      ),
                       child: Text(
                         _controller.isAnimating
                             ? 'Погоди'
                             : _controller.isCompleted
                                 ? 'Назад'
                                 : 'Вперед',
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -217,12 +255,8 @@ class _AnimationDemoState extends State<AnimationDemo>
                           child: Container(
                             width: 100,
                             height: 100,
-                            color: _colorAnimation.value,
-                            child: const Center(
-                              child: Text(
-                                'Кружусь',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                            child: Center(
+                              child: _buildTriangle(),
                             ),
                           ),
                         ),
@@ -233,7 +267,6 @@ class _AnimationDemoState extends State<AnimationDemo>
               ),
             ),
 
-            // Секция с параллакс-эффектом
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -241,10 +274,16 @@ class _AnimationDemoState extends State<AnimationDemo>
                 children: [
                   const Text(
                     'Параллакс-эффект',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   const SizedBox(height: 10),
-                  const Text('Прокрути вниз'),
+                  const Text(
+                    'Прокрути вниз',
+                    style: TextStyle(color: Colors.white70),
+                  ),
                   const SizedBox(height: 20),
                   SizedBox(
                     height: 300,
@@ -255,9 +294,12 @@ class _AnimationDemoState extends State<AnimationDemo>
                           top: 50 - _parallaxOffset * 0.3,
                           left: 20,
                           child: Container(
-                            width: 200,
-                            height: 200,
-                            color: Colors.red,
+                            width: 120,
+                            height: 120,
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
                             child: const Center(
                               child: Text(
                                 'Слой 1',
@@ -270,9 +312,12 @@ class _AnimationDemoState extends State<AnimationDemo>
                           top: 100 - _parallaxOffset * 0.7,
                           left: 100,
                           child: Container(
-                            width: 200,
-                            height: 200,
-                            color: Colors.blue,
+                            width: 150,
+                            height: 150,
+                            decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
                             child: const Center(
                               child: Text(
                                 'Слой 2',
@@ -285,9 +330,12 @@ class _AnimationDemoState extends State<AnimationDemo>
                           top: 150 - _parallaxOffset,
                           left: 180,
                           child: Container(
-                            width: 200,
-                            height: 200,
-                            color: Colors.orange,
+                            width: 180,
+                            height: 180,
+                            decoration: const BoxDecoration(
+                              color: Colors.orange,
+                              shape: BoxShape.circle,
+                            ),
                             child: const Center(
                               child: Text(
                                 'Слой 3',
@@ -308,4 +356,29 @@ class _AnimationDemoState extends State<AnimationDemo>
       ),
     );
   }
+}
+
+// Класс для рисования треугольника
+class TrianglePainter extends CustomPainter {
+  final Color color;
+
+  TrianglePainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final path = Path();
+    path.moveTo(size.width / 2, 0);
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
